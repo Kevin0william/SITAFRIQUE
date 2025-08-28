@@ -264,7 +264,6 @@ body {
 }
 
 .hero-content {
-    margin-top: 1rem;
     text-align: center;
     z-index: 2;
     animation: fadeInUp 1s ease-out;
@@ -1453,3 +1452,4 @@ section {
     }
 
 }
+
