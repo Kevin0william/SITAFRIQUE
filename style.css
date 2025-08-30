@@ -264,6 +264,7 @@ body {
 }
 
 .hero-content {
+    margin-top: 5rem;
     text-align: center;
     z-index: 2;
     animation: fadeInUp 1s ease-out;
@@ -479,6 +480,13 @@ section {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--secondary-black);
+    opacity: 0.8;
+    margin-top: 1rem;
 }
 
 .section-divider {
@@ -949,114 +957,148 @@ section {
     backdrop-filter: blur(10px);
 }
 
-.contact-region {
-    margin-bottom: 4rem;
-}
-
-.region-title {
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    color: var(--secondary-green);
+.contact-main {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 1rem;
-    animation: fadeInUp 0.8s ease-out;
+    align-items: center;
 }
 
-.region-title i {
-    color: var(--primary-orange);
-}
-
-.contact-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.contact-card {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 2.5rem 2rem;
-    border-radius: 20px;
+.contact-single-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 4rem 3rem;
+    border-radius: 25px;
     text-align: center;
-    box-shadow: var(--shadow-light);
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-heavy);
+    border: 3px solid rgba(255, 215, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
-    cursor: pointer;
+    max-width: 500px;
+    width: 100%;
     animation: fadeInUp 0.8s ease-out;
 }
 
-.contact-card:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.contact-card::before {
+.contact-single-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 5px;
-    transition: height 0.3s ease;
-    pointer-events: none;
-}
-
-.whatsapp-card::before {
-    background: #25D366;
-}
-
-.email-card::before {
-    background: var(--primary-orange);
-}
-
-.contact-card:hover::before {
     height: 100%;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: all 0.4s ease;
+    border-radius: 25px;
+}
+
+.contact-single-card:hover::before {
     opacity: 0.1;
 }
 
-.contact-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-heavy);
+.contact-single-card:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 25px 60px rgba(255, 140, 0, 0.4);
+    border-color: var(--primary-gold);
 }
 
-.card-header {
+.contact-card-icon {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2rem;
+}
+
+.contact-card-icon i {
+    font-size: 4rem;
+    color: var(--primary-orange);
+    animation: contactIconPulse 2s ease-in-out infinite;
+}
+
+@keyframes contactIconPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.contact-single-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
     margin-bottom: 1.5rem;
-}
-
-.card-header i {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    display: block;
-}
-
-.whatsapp-card .card-header i {
-    color: #25D366;
-}
-
-.email-card .card-header i {
-    color: var(--primary-orange);
-}
-
-.card-header h4 {
-    font-size: 1.3rem;
-    font-weight: 600;
     color: var(--secondary-green);
+    position: relative;
+    z-index: 2;
 }
 
-.card-content p {
-    margin-bottom: 1rem;
-    color: var(--secondary-black);
-}
-
-.contact-info {
-    font-weight: 600;
-    color: var(--primary-orange);
+.contact-single-card p {
     font-size: 1.1rem;
+    color: var(--secondary-black);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-card-decoration {
+    position: relative;
+    z-index: 2;
+    margin-top: 2rem;
+}
+
+.decoration-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.decoration-dots span {
+    width: 12px;
+    height: 12px;
+    background: var(--primary-orange);
+    border-radius: 50%;
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.decoration-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.decoration-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.contact-card-hover-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
+    pointer-events: none;
+}
+
+.contact-single-card:hover .contact-card-hover-effect {
+    width: 200%;
+    height: 200%;
 }
 
 
@@ -1190,6 +1232,7 @@ section {
 }
 
 .form-step.active {
+    overflow-y: auto;
     display: block;
 }
 
@@ -1283,6 +1326,7 @@ section {
 .btn-next:hover {
     background: white;
     color: var(--primary-orange);
+    transform: scale(1.05);
 }
 
 .btn-contact {
@@ -1310,6 +1354,57 @@ section {
 .btn-contact:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Agency Selection Buttons */
+
+.agency-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-agency {
+    padding: 15px 25px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.btn-agency:hover {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(10px);
+}
+
+.btn-agency i {
+    font-size: 1.5rem;
+}
+
+.btn-agency .agency-info {
+    text-align: left;
+}
+
+.btn-agency .agency-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.btn-agency .agency-desc {
+    font-size: 0.9rem;
+    opacity: 0.8;
 }
 
 
@@ -1421,6 +1516,9 @@ section {
     #modalBody {
         padding: 2rem 1.5rem;
     }
+    .contact-single-card {
+        padding: 3rem 2rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1447,9 +1545,10 @@ section {
     .service-card {
         padding: 2rem 1.5rem;
     }
-    .contact-card {
-        padding: 2rem 1.5rem;
+    .contact-single-card {
+        padding: 2.5rem 1.5rem;
     }
-
+    .contact-single-card h3 {
+        font-size: 1.6rem;
+    }
 }
-
