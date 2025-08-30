@@ -1166,6 +1166,7 @@ section {
 
 /* Modal */
 
+
 .modal {
     display: none;
     position: fixed;
@@ -1176,6 +1177,8 @@ section {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -1188,6 +1191,16 @@ section {
     position: relative;
     box-shadow: var(--shadow-heavy);
     animation: modalSlideIn 0.3s ease-out;
+    width: 60%;
+    /* largeur ajustable */
+    height: 90%;
+    /* hauteur de 90% */
+    max-height: 90%;
+    /* limite à 90% */
+    overflow-y: auto;
+    /* active le défilement vertical */
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes modalSlideIn {
@@ -1552,3 +1565,4 @@ section {
         font-size: 1.6rem;
     }
 }
+
