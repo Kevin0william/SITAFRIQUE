@@ -6,6 +6,10 @@ const modal = document.getElementById('formModal');
 const modalBody = document.getElementById('modalBody');
 const closeModal = document.querySelector('.close');
 
+// Variables pour le formulaire de contact
+let currentContactData = {};
+let selectedAgency = null;
+
 // Menu mobile
 if (hamburger) {
     hamburger.addEventListener('click', () => {
@@ -69,11 +73,8 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observer les éléments à animer
-const animatedElements = document.querySelectorAll('.objectif-card, .service-card, .produit-item, .contact-card, .showcase-card');
+const animatedElements = document.querySelectorAll('.objectif-card, .service-card, .produit-item, .showcase-card');
 animatedElements.forEach(el => observer.observe(el));
-
-// Gestion des formulaires
-let currentFormData = {};
 
 // Fonction pour obtenir le message de salutation selon l'heure
 function getGreeting() {
@@ -83,7 +84,96 @@ function getGreeting() {
     return 'Bonsoir';
 }
 
-// Fonction pour créer le formulaire partenaire
+// Fonction pour créer le formulaire de contact en 4 étapes
+function createContactForm() {
+    return `
+        <div class="form-step active" id="contactStep1">
+            <h3>${getGreeting()} !</h3>
+            <p>Merci de bien vouloir contacter SITAFRIQUE. Nous sommes ravis de pouvoir échanger avec vous sur nos solutions technologiques innovantes.</p>
+            <div class="form-buttons">
+                <button class="btn-next" onclick="nextContactStep(2)">
+                    <i class="fas fa-arrow-right"></i> Suivant
+                </button>
+            </div>
+        </div>
+
+        <div class="form-step" id="contactStep2">
+            <h3>Nos Agences</h3>
+            <p>SITAFRIQUE dispose de 3 agences dans le monde. Laquelle souhaitez-vous contacter ?</p>
+            <div class="agency-buttons">
+                <button class="btn-agency" onclick="selectAgency('france')">
+                    <i class="fas fa-flag"></i>
+                    <div class="agency-info">
+                        <div class="agency-name">🇫🇷 Agence Française</div>
+                        <div class="agency-desc">Bureau principal en France</div>
+                    </div>
+                </button>
+                <button class="btn-agency" onclick="selectAgency('allemagne')">
+                    <i class="fas fa-flag"></i>
+                    <div class="agency-info">
+                        <div class="agency-name">🇩🇪 Agence Allemande</div>
+                        <div class="agency-desc">Bureau européen en Allemagne</div>
+                    </div>
+                </button>
+                <button class="btn-agency" onclick="selectAgency('afrique')">
+                    <i class="fas fa-flag"></i>
+                    <div class="agency-info">
+                        <div class="agency-name">🇨🇲 Agence Africaine</div>
+                        <div class="agency-desc">Bureau africain au Cameroun</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-step" id="contactStep3">
+            <h3>Merci de contacter <span id="selectedAgencyName"></span> !</h3>
+            <p>Pour mieux vous servir, nous aimerions connaître vos coordonnées.</p>
+            <div class="form-group">
+                <label for="contactName">Votre nom complet *</label>
+                <input type="text" id="contactName" placeholder="Entrez votre nom complet" required>
+            </div>
+            <div class="form-group">
+                <label for="contactPhone">Votre numéro de téléphone *</label>
+                <div class="phone-input">
+                    <select id="contactCountryCode">
+                        <option value="+33">🇫🇷 +33</option>
+                        <option value="+49">🇩🇪 +49</option>
+                        <option value="+237">🇨🇲 +237</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+39">🇮🇹 +39</option>
+                        <option value="+34">🇪🇸 +34</option>
+                    </select>
+                    <input type="tel" id="contactPhone" placeholder="Votre numéro de téléphone" required>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button class="btn-next" onclick="nextContactStep(4)">
+                    <i class="fas fa-arrow-right"></i> Suivant
+                </button>
+            </div>
+        </div>
+
+        <div class="form-step" id="contactStep4">
+            <h3>Salut <span id="contactUserName"></span> !</h3>
+            <p>Merci de nous faire confiance. Pouvez-vous nous en dire plus sur la raison de votre contact ?</p>
+            <div class="form-group">
+                <label for="contactMessage">Votre message *</label>
+                <textarea id="contactMessage" class="auto-resize-textarea" placeholder="Décrivez votre demande, vos besoins ou toute question que vous souhaitez nous poser..." required></textarea>
+            </div>
+            <div class="form-buttons">
+                <button class="btn-contact btn-email" onclick="sendContactEmail()">
+                    <i class="fas fa-envelope"></i> Envoyer par Email
+                </button>
+                <button class="btn-contact btn-whatsapp" onclick="sendContactWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Envoyer via WhatsApp
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Fonction pour créer le formulaire partenaire (existant)
 function createPartnerForm() {
     return `
         <div class="form-step active" id="step1">
@@ -140,67 +230,166 @@ function createPartnerForm() {
     `;
 }
 
-// Fonction pour créer le formulaire de contact
-function createContactForm(country, method) {
-    const countryName = country === 'france' ? 'France' : 'Cameroun';
-    const methodName = method === 'email' ? 'Email' : 'WhatsApp';
+// Fonction pour passer à l'étape suivante du contact
+function nextContactStep(stepNumber) {
+    const currentStep = document.querySelector('.form-step.active');
+    const nextStep = document.getElementById(`contactStep${stepNumber}`);
 
-    return `
-        <div class="form-step active" id="step1">
-            <h3>${getGreeting()} !</h3>
-            <p>Merci de prendre contact avec SITAFRIQUE pour plus d'informations sur nos services et solutions technologiques.</p>
-            <div class="form-buttons">
-                <button class="btn-next" onclick="nextStep(2)">Suivant</button>
-            </div>
-        </div>
+    // Validation des champs selon l'étape
+    if (stepNumber === 4) {
+        const name = document.getElementById('contactName');
+        const phone = document.getElementById('contactPhone');
 
-        <div class="form-step" id="step2">
-            <h3>Vos informations</h3>
-            <p>Partagez-nous vos coordonnées pour que nous puissions vous recontacter rapidement.</p>
-            <div class="form-group">
-                <label for="contactName">Nom complet *</label>
-                <input type="text" id="contactName" placeholder="Votre nom complet" required>
-            </div>
-            <div class="form-group">
-                <label for="contactPhone">Numéro de téléphone *</label>
-                <div class="phone-input">
-                    <select id="contactCountryCode">
-                        <option value="+33" ${country === 'france' ? 'selected' : ''}>🇫🇷 +33</option>
-                        <option value="+237" ${country === 'cameroun' ? 'selected' : ''}>🇨🇲 +237</option>
-                        <option value="+1">🇺🇸 +1</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+49">🇩🇪 +49</option>
-                        <option value="+39">🇮🇹 +39</option>
-                        <option value="+34">🇪🇸 +34</option>
-                    </select>
-                    <input type="tel" id="contactPhone" placeholder="Votre numéro" required>
-                </div>
-            </div>
-            <div class="form-buttons">
-                <button class="btn-next" onclick="nextStep(3)">Suivant</button>
-            </div>
-        </div>
+        if (!name.value.trim() || !phone.value.trim()) {
+            alert('Veuillez remplir tous les champs obligatoires.');
+            return;
+        }
 
-        <div class="form-step" id="step3">
-            <h3>Merci <span id="contactUserName"></span> !</h3>
-            <p>Décrivez-nous vos besoins et les services qui vous intéressent. Notre équipe vous recontactera rapidement.</p>
-            <div class="form-group">
-                <label for="contactMessage">Votre message *</label>
-                <textarea id="contactMessage" class="auto-resize-textarea" placeholder="Décrivez vos besoins, les services qui vous intéressent, ou toute question que vous souhaitez nous poser..." required></textarea>
-            </div>
-            <div class="form-buttons">
-                <button class="btn-contact btn-email" onclick="sendContactEmail('${country}')">
-                    <i class="fas fa-envelope"></i> Contacter SITAFRIQUE depuis ${countryName}
-                </button>
-                <button class="btn-contact btn-whatsapp" onclick="sendContactWhatsApp('${country}')">
-                    <i class="fab fa-whatsapp"></i> Contacter SITAFRIQUE depuis ${countryName}
-                </button>
-            </div>
-        </div>
-    `;
+        // Sauvegarder les données
+        currentContactData.name = name.value.trim();
+        currentContactData.countryCode = document.getElementById('contactCountryCode').value;
+        currentContactData.phone = phone.value.trim();
+
+        // Mettre à jour le nom dans l'étape finale
+        const userNameSpan = document.getElementById('contactUserName');
+        if (userNameSpan) {
+            userNameSpan.textContent = currentContactData.name;
+        }
+    }
+
+    // Animation de transition
+    currentStep.style.animation = 'slideOutLeft 0.3s ease-out';
+
+    setTimeout(() => {
+        currentStep.classList.remove('active');
+        nextStep.classList.add('active');
+        nextStep.style.animation = 'slideInRight 0.3s ease-out';
+    }, 300);
 }
 
-// Fonction pour passer à l'étape suivante
+// Fonction pour sélectionner une agence
+function selectAgency(agency) {
+    selectedAgency = agency;
+    currentContactData.agency = agency;
+
+    let agencyName;
+    switch (agency) {
+        case 'france':
+            agencyName = 'l\'agence française';
+            break;
+        case 'allemagne':
+            agencyName = 'l\'agence allemande';
+            break;
+        case 'afrique':
+            agencyName = 'l\'agence africaine';
+            break;
+    }
+
+    // Animation de sélection
+    const buttons = document.querySelectorAll('.btn-agency');
+    buttons.forEach(btn => {
+        btn.style.opacity = '0.5';
+        btn.style.transform = 'scale(0.95)';
+    });
+
+    setTimeout(() => {
+        nextContactStep(3);
+        // Mettre à jour le nom de l'agence sélectionnée
+        const agencyNameSpan = document.getElementById('selectedAgencyName');
+        if (agencyNameSpan) {
+            agencyNameSpan.textContent = agencyName;
+        }
+    }, 500);
+}
+
+// Fonction pour envoyer le contact par email
+function sendContactEmail() {
+    const message = document.getElementById('contactMessage').value.trim();
+    if (!message) {
+        alert('Veuillez décrire la raison de votre contact.');
+        return;
+    }
+
+    let email, agencyName;
+    switch (selectedAgency) {
+        case 'france':
+            email = 'regineyiki77@gmail.com';
+            agencyName = 'France';
+            break;
+        case 'allemagne':
+            email = 'isaac@gmail.com';
+            agencyName = 'Allemagne';
+            break;
+        case 'afrique':
+            email = 'kevinwilliammkd@gmail.com';
+            agencyName = 'Cameroun (Afrique)';
+            break;
+    }
+
+    const subject = encodeURIComponent(`Contact SITAFRIQUE - Agence ${agencyName}`);
+    const body = encodeURIComponent(`${getGreeting()},
+
+Je vous contacte depuis le site web de SITAFRIQUE.
+
+Mes informations :
+- Nom : ${currentContactData.name}
+- Téléphone : ${currentContactData.countryCode} ${currentContactData.phone}
+- Agence contactée : ${agencyName}
+
+Mon message :
+${message}
+
+Cordialement,
+${currentContactData.name}`);
+
+    window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+    closeModalFunction();
+}
+
+// Fonction pour envoyer le contact par WhatsApp
+function sendContactWhatsApp() {
+    const message = document.getElementById('contactMessage').value.trim();
+    if (!message) {
+        alert('Veuillez décrire la raison de votre contact.');
+        return;
+    }
+
+    let whatsappNumber, agencyName;
+    switch (selectedAgency) {
+        case 'france':
+            whatsappNumber = '33641286657';
+            agencyName = 'France';
+            break;
+        case 'allemagne':
+            whatsappNumber = '491744945674';
+            agencyName = 'Allemagne';
+            break;
+        case 'afrique':
+            whatsappNumber = '237678208073';
+            agencyName = 'Cameroun (Afrique)';
+            break;
+    }
+
+    const whatsappMessage = encodeURIComponent(`${getGreeting()},
+
+Je vous contacte depuis le site web de SITAFRIQUE.
+
+Mes informations :
+- Nom : ${currentContactData.name}
+- Téléphone : ${currentContactData.countryCode} ${currentContactData.phone}
+- Agence contactée : ${agencyName}
+
+Mon message :
+${message}
+
+Cordialement,
+${currentContactData.name}`);
+
+    window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`);
+    closeModalFunction();
+}
+
+// Fonction pour passer à l'étape suivante (partenaire - existant)
 function nextStep(stepNumber) {
     const currentStep = document.querySelector('.form-step.active');
     const nextStep = document.getElementById(`step${stepNumber}`);
@@ -209,8 +398,8 @@ function nextStep(stepNumber) {
     if (stepNumber === 2) {
         // Pas de validation pour l'étape 1 (juste salutation)
     } else if (stepNumber === 3) {
-        const name = document.getElementById('partnerName') || document.getElementById('contactName');
-        const phone = document.getElementById('partnerPhone') || document.getElementById('contactPhone');
+        const name = document.getElementById('partnerName');
+        const phone = document.getElementById('partnerPhone');
 
         if (!name.value.trim() || !phone.value.trim()) {
             alert('Veuillez remplir tous les champs obligatoires.');
@@ -219,11 +408,11 @@ function nextStep(stepNumber) {
 
         // Sauvegarder les données
         currentFormData.name = name.value.trim();
-        currentFormData.countryCode = (document.getElementById('countryCode') || document.getElementById('contactCountryCode')).value;
+        currentFormData.countryCode = document.getElementById('countryCode').value;
         currentFormData.phone = phone.value.trim();
 
         // Mettre à jour le nom dans l'étape suivante
-        const userNameSpan = document.getElementById('userName') || document.getElementById('contactUserName');
+        const userNameSpan = document.getElementById('userName');
         if (userNameSpan) {
             userNameSpan.textContent = currentFormData.name;
         }
@@ -286,75 +475,29 @@ ${currentFormData.name}`);
     closeModalFunction();
 }
 
-// Fonction pour envoyer email contact
-function sendContactEmail(country) {
-    const message = document.getElementById('contactMessage').value.trim();
-    if (!message) {
-        alert('Veuillez décrire vos besoins.');
-        return;
-    }
-
-    const email = country === 'france' ? 'regineyiki77@gmail.com' : 'kevinwilliammkd@gmail.com';
-    const countryName = country === 'france' ? 'France' : 'Cameroun';
-
-    const subject = encodeURIComponent(`Demande d'Information - SITAFRIQUE depuis ${countryName}`);
-    const body = encodeURIComponent(`Bonjour,
-
-Je souhaite obtenir plus d'informations sur les services de SITAFRIQUE.
-
-Mes informations :
-- Nom : ${currentFormData.name}
-- Téléphone : ${currentFormData.countryCode} ${currentFormData.phone}
-- Pays : ${countryName}
-
-Mon message :
-${message}
-
-Cordialement,
-${currentFormData.name}`);
-
-    window.open(`mailto:${email}?subject=${subject}&body=${body}`);
-    closeModalFunction();
-}
-
-// Fonction pour envoyer WhatsApp contact
-function sendContactWhatsApp(country) {
-    const message = document.getElementById('contactMessage').value.trim();
-    if (!message) {
-        alert('Veuillez décrire vos besoins.');
-        return;
-    }
-
-    const whatsappNumber = country === 'france' ? '33641286657' : '237678208073';
-    const countryName = country === 'france' ? 'France' : 'Cameroun';
-
-    const whatsappMessage = encodeURIComponent(`Bonjour,
-
-Je souhaite obtenir plus d'informations sur les services de SITAFRIQUE.
-
-Mes informations :
-- Nom : ${currentFormData.name}
-- Téléphone : ${currentFormData.countryCode} ${currentFormData.phone}
-- Pays : ${countryName}
-
-Mon message :
-${message}
-
-Cordialement,
-${currentFormData.name}`);
-
-    window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`);
-    closeModalFunction();
-}
-
 // Fonction pour fermer le modal
 function closeModalFunction() {
     modal.style.display = 'none';
     currentFormData = {};
+    currentContactData = {};
+    selectedAgency = null;
 }
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
+    // Variables globales pour partenaire
+    window.currentFormData = {};
+
+    // Carte de contact principale
+    const contactMainCard = document.getElementById('contactMainCard');
+    if (contactMainCard) {
+        contactMainCard.addEventListener('click', () => {
+            modalBody.innerHTML = createContactForm();
+            modal.style.display = 'block';
+            setupTextareaAutoResize();
+        });
+    }
+
     // Bouton devenir partenaire
     const becomePartnerBtn = document.getElementById('becomePartnerBtn');
     if (becomePartnerBtn) {
@@ -364,22 +507,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setupTextareaAutoResize();
         });
     }
-
-    // Cartes de contact
-    const contactCards = document.querySelectorAll('.contact-card');
-    contactCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const type = card.dataset.type;
-            const country = card.dataset.country;
-            const method = card.dataset.method;
-
-            if (type === 'contact') {
-                modalBody.innerHTML = createContactForm(country, method);
-                modal.style.display = 'block';
-                setupTextareaAutoResize();
-            }
-        });
-    });
 
     // Fermer le modal
     if (closeModal) closeModal.addEventListener('click', closeModalFunction);
@@ -463,7 +590,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Animation des cartes au survol
-document.querySelectorAll('.contact-card, .showcase-card').forEach(card => {
+document.querySelectorAll('.showcase-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
         card.style.transform = 'translateY(-15px) scale(1.02)';
     });
@@ -473,12 +600,40 @@ document.querySelectorAll('.contact-card, .showcase-card').forEach(card => {
     });
 });
 
+// Animations CSS supplémentaires pour les transitions
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideOutLeft {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+`;
+document.head.appendChild(style);
+
 console.log(`
 🚀 Site SITAFRIQUE redesigné avec succès !
 
 ✨ Nouvelles fonctionnalités :
 - Design moderne avec thème gold/orange
 - Animations fluides et effets visuels
+- Formulaire de contact en 4 étapes avec sélection d'agence
 - Formulaires dynamiques pour partenaires et contacts
 - Interface responsive complète
 - Background animé avec bulles, vagues et étincelles
@@ -488,9 +643,13 @@ France:
 - Email : regineyiki77@gmail.com
 - WhatsApp : +33 6 41 28 66 57
 
-Cameroun:
+Cameroun (Afrique):
 - Email : kevinwilliammkd@gmail.com
 - WhatsApp : +237 6 78 20 80 73
 
-💎 Développé avec passion pour SITAFRIQUE
+Allemagne:
+- Email : isaac@gmail.com
+- WhatsApp : +49 17 44 94 56 74
+
+💎 Section contact mise à jour avec formulaire en 4 étapes
 `);
