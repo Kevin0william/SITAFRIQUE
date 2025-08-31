@@ -104,21 +104,21 @@ function createContactForm() {
                 <button class="btn-agency" onclick="selectAgency('france')">
                     <i class="fas fa-flag"></i>
                     <div class="agency-info">
-                        <div class="agency-name">🇫🇷 Agence Française</div>
+                        <div class="agency-name"> Agence Française</div>
                         <div class="agency-desc">Bureau principal en France</div>
                     </div>
                 </button>
                 <button class="btn-agency" onclick="selectAgency('allemagne')">
                     <i class="fas fa-flag"></i>
                     <div class="agency-info">
-                        <div class="agency-name">🇩🇪 Agence Allemande</div>
+                        <div class="agency-name"> Agence Allemande</div>
                         <div class="agency-desc">Bureau européen en Allemagne</div>
                     </div>
                 </button>
                 <button class="btn-agency" onclick="selectAgency('afrique')">
                     <i class="fas fa-flag"></i>
                     <div class="agency-info">
-                        <div class="agency-name">🇨🇲 Agence Africaine</div>
+                        <div class="agency-name"> Agence Africaine</div>
                         <div class="agency-desc">Bureau africain au Cameroun</div>
                     </div>
                 </button>
@@ -136,13 +136,13 @@ function createContactForm() {
                 <label for="contactPhone">Votre numéro de téléphone *</label>
                 <div class="phone-input">
                     <select id="contactCountryCode">
-                        <option value="+33">🇫🇷 +33</option>
-                        <option value="+49">🇩🇪 +49</option>
-                        <option value="+237">🇨🇲 +237</option>
-                        <option value="+1">🇺🇸 +1</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+39">🇮🇹 +39</option>
-                        <option value="+34">🇪🇸 +34</option>
+                        <option value="+33"> +33</option>
+                        <option value="+49"> +49</option>
+                        <option value="+237"> +237</option>
+                        <option value="+1"> +1</option>
+                        <option value="+44"> +44</option>
+                        <option value="+39"> +39</option>
+                        <option value="+34"> +34</option>
                     </select>
                     <input type="tel" id="contactPhone" placeholder="Votre numéro de téléphone" required>
                 </div>
@@ -653,3 +653,4 @@ Allemagne:
 
 💎 Section contact mise à jour avec formulaire en 4 étapes
 `);
+
