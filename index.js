@@ -195,13 +195,13 @@ function createPartnerForm() {
                 <label for="partnerPhone">Numéro de téléphone *</label>
                 <div class="phone-input">
                     <select id="countryCode">
-                        <option value="+33">🇫🇷 +33</option>
-                        <option value="+237">🇨🇲 +237</option>
-                        <option value="+1">🇺🇸 +1</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+49">🇩🇪 +49</option>
-                        <option value="+39">🇮🇹 +39</option>
-                        <option value="+34">🇪🇸 +34</option>
+                        <option value="+33"> +33</option>
+                        <option value="+237"> +237</option>
+                        <option value="+1"> +1</option>
+                        <option value="+44"> +44</option>
+                        <option value="+49"> +49</option>
+                        <option value="+39"> +39</option>
+                        <option value="+34"> +34</option>
                     </select>
                     <input type="tel" id="partnerPhone" placeholder="Votre numéro" required>
                 </div>
@@ -653,4 +653,5 @@ Allemagne:
 
 💎 Section contact mise à jour avec formulaire en 4 étapes
 `);
+
 
