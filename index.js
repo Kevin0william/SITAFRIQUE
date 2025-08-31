@@ -317,7 +317,7 @@ function sendContactEmail() {
             agencyName = 'France';
             break;
         case 'allemagne':
-            email = 'isaac@gmail.com';
+            email = 'youbisaac@gmail.com';
             agencyName = 'Allemagne';
             break;
         case 'afrique':
@@ -653,5 +653,6 @@ Allemagne:
 
 💎 Section contact mise à jour avec formulaire en 4 étapes
 `);
+
 
 
