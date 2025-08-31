@@ -1467,7 +1467,9 @@ section {
     }
 }
 
-#contactCountryCode {
+
+#contactCountryCode,
+#countryCode {
     color: #000;
 }
 
@@ -1568,5 +1570,6 @@ section {
         font-size: 1.6rem;
     }
 }
+
 
 
