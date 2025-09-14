@@ -1123,7 +1123,7 @@ section {
 
 .advantages-slides {
     position: relative;
-    height: 450px;
+    height: 600px;
     overflow: hidden;
     border-radius: 20px;
     box-shadow: var(--shadow-medium);
@@ -1909,4 +1909,5 @@ section {
         font-size: 1.2rem;
     }
 }
+
 
