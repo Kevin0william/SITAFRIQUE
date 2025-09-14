@@ -6,9 +6,48 @@ const modal = document.getElementById('formModal');
 const modalBody = document.getElementById('modalBody');
 const closeModal = document.querySelector('.close');
 
+// Variables pour les nouveaux modaux
+const advantagesModal = document.getElementById('advantagesModal');
+const advantagesClose = document.querySelector('.advantages-close');
+
 // Variables pour le formulaire de contact
 let currentContactData = {};
 let selectedAgency = null;
+
+// Variables pour le carrousel d'avantages
+let currentSlide = 0;
+let slideInterval;
+const advantages = [{
+        icon: '<i class="fas fa-chart-line"></i>',
+        title: 'Retour sur Investissement Exceptionnel',
+        description: 'Bénéficiez d\'un marché africain en pleine expansion avec des taux de croissance supérieurs à 6% annuels. Votre investissement génère des revenus durables dans un écosystème technologique émergent.'
+    },
+    {
+        icon: '<i class="fas fa-globe-africa"></i>',
+        title: 'Accès Privilégié au Marché Africain',
+        description: 'Profitez de notre réseau établi dans 15 pays africains. Bénéficiez de partenariats locaux exclusifs et d\'une connaissance approfondie des marchés régionaux pour maximiser vos opportunités.'
+    },
+    {
+        icon: '<i class="fas fa-handshake"></i>',
+        title: 'Partenariats Stratégiques Exclusifs',
+        description: 'Accédez à notre réseau de partenaires institutionnels, gouvernementaux et privés. Participez aux décisions stratégiques et influencez l\'orientation des projets d\'envergure continentale.'
+    },
+    {
+        icon: '<i class="fas fa-rocket"></i>',
+        title: 'Innovation Technologique de Pointe',
+        description: 'Investissez dans les technologies émergentes: IA, IoT, blockchain, énergies renouvelables. Soyez pionnier dans la transformation digitale africaine avec des solutions adaptées aux besoins locaux.'
+    },
+    {
+        icon: '<i class="fas fa-shield-alt"></i>',
+        title: 'Sécurité et Transparence Garanties',
+        description: 'Bénéficiez de reporting financier transparent, d\'audits réguliers et de structures juridiques sécurisées. Votre investissement est protégé par des cadres légaux internationaux robustes.'
+    },
+    {
+        icon: '<i class="fas fa-users"></i>',
+        title: 'Impact Social Mesurable',
+        description: 'Participez à la création de 10 000+ emplois durables et à la formation de 50 000+ jeunes aux nouvelles technologies. Votre investissement génère un impact social positif et mesurable.'
+    }
+];
 
 // Menu mobile
 if (hamburger) {
@@ -228,6 +267,88 @@ function createPartnerForm() {
             </div>
         </div>
     `;
+}
+
+// Fonctions pour le modal des avantages
+function showAdvantagesModal() {
+    advantagesModal.style.display = 'flex';
+    createAdvantagesSlides();
+    startSlideshow();
+}
+
+function closeAdvantagesModal() {
+    advantagesModal.style.display = 'none';
+    stopSlideshow();
+    currentSlide = 0;
+}
+
+function createAdvantagesSlides() {
+    const slidesContainer = document.getElementById('advantagesSlides');
+    const indicatorsContainer = document.getElementById('carouselIndicators');
+
+    // Créer les slides
+    slidesContainer.innerHTML = advantages.map((advantage, index) => `
+        <div class="advantage-slide ${index === 0 ? 'active' : ''}" data-slide="${index}">
+            <div class="advantage-icon">${advantage.icon}</div>
+            <h4 class="advantage-title">${advantage.title}</h4>
+            <p class="advantage-description">${advantage.description}</p>
+        </div>
+    `).join('');
+
+    // Créer les indicateurs
+    indicatorsContainer.innerHTML = advantages.map((_, index) => `
+        <div class="indicator ${index === 0 ? 'active' : ''}" data-slide="${index}"></div>
+    `).join('');
+
+    // Ajouter les événements aux indicateurs
+    document.querySelectorAll('.indicator').forEach((indicator, index) => {
+        indicator.addEventListener('click', () => goToSlide(index));
+    });
+}
+
+function goToSlide(slideIndex) {
+    const slides = document.querySelectorAll('.advantage-slide');
+    const indicators = document.querySelectorAll('.indicator');
+
+    // Supprimer les classes actives
+    slides[currentSlide].classList.remove('active');
+    indicators[currentSlide].classList.remove('active');
+
+    // Ajouter la classe prev à l'ancienne slide
+    if (slideIndex !== currentSlide) {
+        slides[currentSlide].classList.add('prev');
+        setTimeout(() => {
+            slides[currentSlide].classList.remove('prev');
+        }, 600);
+    }
+
+    // Mettre à jour l'index
+    currentSlide = slideIndex;
+
+    // Ajouter les nouvelles classes actives
+    slides[currentSlide].classList.add('active');
+    indicators[currentSlide].classList.add('active');
+}
+
+function nextSlide() {
+    const nextIndex = (currentSlide + 1) % advantages.length;
+    goToSlide(nextIndex);
+}
+
+function prevSlide() {
+    const prevIndex = (currentSlide - 1 + advantages.length) % advantages.length;
+    goToSlide(prevIndex);
+}
+
+function startSlideshow() {
+    slideInterval = setInterval(nextSlide, 20000); // Change toutes les 4 secondes
+}
+
+function stopSlideshow() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+        slideInterval = null;
+    }
 }
 
 // Fonction pour passer à l'étape suivante du contact
@@ -488,6 +609,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Variables globales pour partenaire
     window.currentFormData = {};
 
+    // Bouton "En savoir plus" pour les avantages
+    const learnMoreBtn = document.getElementById('learnMoreBtn');
+    if (learnMoreBtn) {
+        learnMoreBtn.addEventListener('click', showAdvantagesModal);
+    }
+
+    // Bouton "Devenir Partenaire"
+    const becomePartnerBtn = document.getElementById('becomePartnerBtn');
+    if (becomePartnerBtn) {
+        becomePartnerBtn.addEventListener('click', () => {
+            modalBody.innerHTML = createPartnerForm();
+            modal.style.display = 'block';
+            setupTextareaAutoResize();
+        });
+    }
+
     // Carte de contact principale
     const contactMainCard = document.getElementById('contactMainCard');
     if (contactMainCard) {
@@ -498,22 +635,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Bouton devenir partenaire
-    const becomePartnerBtn = document.getElementById('becomePartnerBtn');
-    if (becomePartnerBtn) {
-        becomePartnerBtn.addEventListener('click', () => {
-            modalBody.innerHTML = createPartnerForm();
-            modal.style.display = 'block';
-            setupTextareaAutoResize();
-        });
-    }
+    // Contrôles du carrousel d'avantages
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
 
-    // Fermer le modal
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        stopSlideshow();
+        nextSlide();
+        startSlideshow();
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        stopSlideshow();
+        prevSlide();
+        startSlideshow();
+    });
+
+    // Fermer les modaux
     if (closeModal) closeModal.addEventListener('click', closeModalFunction);
+    if (advantagesClose) advantagesClose.addEventListener('click', closeAdvantagesModal);
 
+    // Fermer les modaux en cliquant à l'extérieur
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModalFunction();
+        }
+        if (e.target === advantagesModal) {
+            closeAdvantagesModal();
         }
     });
 
@@ -628,31 +776,25 @@ style.textContent = `
 document.head.appendChild(style);
 
 console.log(`
-🚀 Site SITAFRIQUE redesigné avec succès !
+🚀 SITAFRIQUE - Section Partenaires Complètement Restructurée !
 
-✨ Nouvelles fonctionnalités :
-- Design moderne avec thème gold/orange
-- Animations fluides et effets visuels
-- Formulaire de contact en 4 étapes avec sélection d'agence
-- Formulaires dynamiques pour partenaires et contacts
-- Interface responsive complète
-- Background animé avec bulles, vagues et étincelles
+✨ Nouvelles fonctionnalités de la section partenaire :
+- Question stratégique accrocheuse pour attirer les investisseurs
+- Bouton "En savoir plus" avec animations premium
+- Modal des avantages avec carrousel automatique (6 avantages)
+- Navigation manuelle avec flèches et indicateurs
+- Appel à l'action professionnel "Devenir Partenaire"
+- Design différencié des autres modaux
+- Animations fluides et transitions élégantes
+- Interface 100% responsive
 
-📞 Contacts disponibles :
-France:
-- Email : regineyiki77@gmail.com
-- WhatsApp : +33 6 41 28 66 57
+🎯 Avantages présentés aux investisseurs :
+1. Retour sur Investissement Exceptionnel
+2. Accès Privilégié au Marché Africain
+3. Partenariats Stratégiques Exclusifs
+4. Innovation Technologique de Pointe
+5. Sécurité et Transparence Garanties
+6. Impact Social Mesurable
 
-Cameroun (Afrique):
-- Email : kevinwilliammkd@gmail.com
-- WhatsApp : +237 6 78 20 80 73
-
-Allemagne:
-- Email : isaac@gmail.com
-- WhatsApp : +49 17 44 94 56 74
-
-💎 Section contact mise à jour avec formulaire en 4 étapes
+💎 La section partenaire est maintenant optimisée pour convertir les visiteurs en investisseurs !
 `);
-
-
-
