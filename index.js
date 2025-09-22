@@ -18,7 +18,6 @@ let selectedAgency = null;
 let currentSlide = 0;
 let slideInterval;
 const advantages = [
-const advantages = [
     {
         icon: '<i class="fas fa-seedling"></i>',
         title: 'Modèle Éthique et Durable',
@@ -799,5 +798,6 @@ console.log(`
 
 💎 La section partenaire est maintenant optimisée pour convertir les visiteurs en investisseurs !
 `);
+
 
 
