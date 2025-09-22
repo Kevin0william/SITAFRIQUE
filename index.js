@@ -17,35 +17,36 @@ let selectedAgency = null;
 // Variables pour le carrousel d'avantages
 let currentSlide = 0;
 let slideInterval;
-const advantages = [{
-        icon: '<i class="fas fa-chart-line"></i>',
-        title: 'Retour sur Investissement Exceptionnel',
-        description: 'Bénéficiez d\'un marché africain en pleine expansion avec des taux de croissance supérieurs à 6% annuels. Votre investissement génère des revenus durables dans un écosystème technologique émergent.'
+const advantages = [
+    {
+        icon: '<i class="fas fa-seedling"></i>',
+        title: 'Modèle Éthique et Durable',
+        description: 'Rejoignez un projet fondé sur des valeurs morales fortes, prônant l’éthique, la transparence et le développement équitable. SITAFRIQUE refuse toute collaboration avec les circuits corrompus ou destructeurs.'
     },
     {
-        icon: '<i class="fas fa-globe-africa"></i>',
-        title: 'Accès Privilégié au Marché Africain',
-        description: 'Profitez de notre réseau établi dans 15 pays africains. Bénéficiez de partenariats locaux exclusifs et d\'une connaissance approfondie des marchés régionaux pour maximiser vos opportunités.'
+        icon: '<i class="fas fa-store-alt"></i>',
+        title: 'Vitrine Internationale pour les Produits Africains',
+        description: 'Profitez de notre plateforme pour commercialiser vos produits dans les marchés européens, américains et asiatiques. SITAFRIQUE agit comme relais international pour la visibilité et les ventes à l’étranger.'
     },
     {
-        icon: '<i class="fas fa-handshake"></i>',
-        title: 'Partenariats Stratégiques Exclusifs',
-        description: 'Accédez à notre réseau de partenaires institutionnels, gouvernementaux et privés. Participez aux décisions stratégiques et influencez l\'orientation des projets d\'envergure continentale.'
+        icon: '<i class="fas fa-network-wired"></i>',
+        title: 'Accès à un Réseau Multisectoriel en Afrique',
+        description: 'Intégrez un réseau de producteurs, artisans, ingénieurs et entrepreneurs actifs dans les domaines de l’agriculture, de l’énergie, du recyclage et de la tech. Une porte ouverte vers les opportunités africaines.'
     },
     {
-        icon: '<i class="fas fa-rocket"></i>',
-        title: 'Innovation Technologique de Pointe',
-        description: 'Investissez dans les technologies émergentes: IA, IoT, blockchain, énergies renouvelables. Soyez pionnier dans la transformation digitale africaine avec des solutions adaptées aux besoins locaux.'
+        icon: '<i class="fas fa-leaf"></i>',
+        title: 'Développement des Énergies Vertes',
+        description: 'Investissez dans des projets concrets de production solaire, de gestion des déchets plastiques et de solutions alternatives pour combler les déficits énergétiques en Afrique.'
     },
     {
-        icon: '<i class="fas fa-shield-alt"></i>',
-        title: 'Sécurité et Transparence Garanties',
-        description: 'Bénéficiez de reporting financier transparent, d\'audits réguliers et de structures juridiques sécurisées. Votre investissement est protégé par des cadres légaux internationaux robustes.'
+        icon: '<i class="fas fa-hand-holding-usd"></i>',
+        title: 'Modèle Rentable à Fort Potentiel',
+        description: 'Générez des revenus sur chaque commande exportée, grâce à un système de commissions bien structuré. Des marges récurrentes dans un modèle à faible coût initial et forte croissance.'
     },
     {
-        icon: '<i class="fas fa-users"></i>',
-        title: 'Impact Social Mesurable',
-        description: 'Participez à la création de 10 000+ emplois durables et à la formation de 50 000+ jeunes aux nouvelles technologies. Votre investissement génère un impact social positif et mesurable.'
+        icon: '<i class="fas fa-users-cog"></i>',
+        title: 'Impact Social et Transformation Locale',
+        description: 'Contribuez à l’insertion professionnelle de milliers de jeunes. Formations, emplois durables et transfert de compétences font partie intégrante de notre mission en Afrique.'
     }
 ];
 
@@ -798,3 +799,4 @@ console.log(`
 
 💎 La section partenaire est maintenant optimisée pour convertir les visiteurs en investisseurs !
 `);
+
