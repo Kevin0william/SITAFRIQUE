@@ -18,38 +18,38 @@ let selectedAgency = null;
 let currentSlide = 0;
 let slideInterval;
 const advantages = [
+const advantages = [
     {
         icon: '<i class="fas fa-seedling"></i>',
         title: 'Modèle Éthique et Durable',
-        description: 'Rejoignez un projet fondé sur des valeurs morales fortes, prônant l’éthique, la transparence et le développement équitable. SITAFRIQUE refuse toute collaboration avec les circuits corrompus ou destructeurs.'
-    },
+        description: 'Participez à une initiative exemplaire, fondée sur des principes éthiques solides, une transparence totale et un engagement pour un développement équitable. SITAFRIQUE garantit une collaboration saine, loin des circuits corrompus ou destructeurs.'
+},
     {
         icon: '<i class="fas fa-store-alt"></i>',
         title: 'Vitrine Internationale pour les Produits Africains',
-        description: 'Profitez de notre plateforme pour commercialiser vos produits dans les marchés européens, américains et asiatiques. SITAFRIQUE agit comme relais international pour la visibilité et les ventes à l’étranger.'
-    },
+        description: 'Accédez à une vitrine mondiale pour vos produits, avec une présence stratégique sur les marchés européens, américains et asiatiques. SITAFRIQUE propulse votre visibilité et booste vos ventes à l’international.'
+},
     {
         icon: '<i class="fas fa-network-wired"></i>',
         title: 'Accès à un Réseau Multisectoriel en Afrique',
-        description: 'Intégrez un réseau de producteurs, artisans, ingénieurs et entrepreneurs actifs dans les domaines de l’agriculture, de l’énergie, du recyclage et de la tech. Une porte ouverte vers les opportunités africaines.'
-    },
+        description: 'Bénéficiez d’un réseau puissant et structuré de producteurs, artisans, ingénieurs et entrepreneurs dans des secteurs clés: agriculture, énergie, recyclage, tech. Une passerelle directe vers les opportunités africaines les plus prometteuses.'
+},
     {
         icon: '<i class="fas fa-leaf"></i>',
         title: 'Développement des Énergies Vertes',
-        description: 'Investissez dans des projets concrets de production solaire, de gestion des déchets plastiques et de solutions alternatives pour combler les déficits énergétiques en Afrique.'
-    },
+        description: 'Investissez dans des projets innovants à fort impact: production solaire, valorisation des déchets plastiques, solutions énergétiques alternatives. Un levier concret pour répondre aux défis énergétiques du continent.'
+},
     {
         icon: '<i class="fas fa-hand-holding-usd"></i>',
         title: 'Modèle Rentable à Fort Potentiel',
-        description: 'Générez des revenus sur chaque commande exportée, grâce à un système de commissions bien structuré. Des marges récurrentes dans un modèle à faible coût initial et forte croissance.'
-    },
+        description: 'Profitez d’un modèle économique performant, avec des revenus générés sur chaque commande exportée. Un système de commissions optimisé, des marges récurrentes et une croissance rapide dès le démarrage.'
+},
     {
         icon: '<i class="fas fa-users-cog"></i>',
         title: 'Impact Social et Transformation Locale',
-        description: 'Contribuez à l’insertion professionnelle de milliers de jeunes. Formations, emplois durables et transfert de compétences font partie intégrante de notre mission en Afrique.'
-    }
+        description: 'Devenez acteur d’un changement durable en Afrique: insertion professionnelle massive, formations qualifiantes, création d’emplois pérennes et transfert de compétences. Un impact mesurable et valorisant pour chaque investisseur.'
+}
 ];
-
 // Menu mobile
 if (hamburger) {
     hamburger.addEventListener('click', () => {
@@ -799,4 +799,5 @@ console.log(`
 
 💎 La section partenaire est maintenant optimisée pour convertir les visiteurs en investisseurs !
 `);
+
 
